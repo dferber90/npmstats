@@ -1,0 +1,30 @@
+@import "./reset.css";
+
+.searchText {
+  display: block;
+  margin: 60px auto 5px;
+  padding: 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid lightgray;
+  width: 300px;
+}
+
+.submitButton {
+  display: block;
+  margin: 0 auto;
+  display: none;
+}
+
+.container {
+  margin: 0 auto;
+  width: 600px;
+}
+
+.chart {
+  margin: 40px 0;
+}
+
+footer {
+  margin: 20px 0;
+}

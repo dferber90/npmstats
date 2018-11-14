@@ -1,0 +1,24 @@
+{
+  "name": "npmstats",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dominik Ferber <dominik.ferber+npm@gmail.com> (http://dferber.de/)",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.6",
+    "@babel/plugin-proposal-class-properties": "7.1.0",
+    "@babel/plugin-transform-react-jsx": "7.1.6",
+    "babel-plugin-transform-react-jsx": "6.24.1",
+    "parcel": "1.10.3",
+    "preact": "8.3.1",
+    "preact-router": "2.6.1"
+  },
+  "dependencies": {
+    "approximate-number": "2.0.0",
+    "chart.js": "2.7.3",
+    "preact-compat": "3.18.4"
+  }
+}
