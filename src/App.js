@@ -35,9 +35,9 @@ const fetchAuthors = options => {
     options.commonFormat.map(searchItem => {
       // remove leading @ from author
       const author = searchItem.author.slice(1);
-      return fetch(
-        `http://localhost:3000/author/${encodeURIComponent(author)}`
-      ).then(response => response.json());
+      return fetch(`/-author/${encodeURIComponent(author)}`).then(response =>
+        response.json()
+      );
     })
   ).then(authorsWithPackages => {
     return Promise.all(
