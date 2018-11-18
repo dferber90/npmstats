@@ -17,7 +17,12 @@ const getDownloadsByMonth = data =>
   }));
 
 const getLabels = downloadsByMonth =>
-  downloadsByMonth[0].downloads.map(entry => entry.month);
+  downloadsByMonth[0].downloads.map(entry =>
+    new Date(entry.month).toLocaleDateString("en", {
+      year: "2-digit",
+      month: "short"
+    })
+  );
 
 const getDatasets = downloadsByMonth =>
   downloadsByMonth.map((item, index) => ({

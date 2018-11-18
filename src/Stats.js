@@ -25,6 +25,11 @@ export class Stats extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.searchQuery !== prevProps.searchQuery) {
+      window.scrollTo(0, 0);
+    }
+  }
   static getDerivedStateFromProps(props, state) {
     return props.searchQuery !== state.searchQuery
       ? {

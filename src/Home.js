@@ -33,7 +33,7 @@ export class Home extends Component {
             <h1 class="logo">
               NPM<span>STATS</span>
             </h1>
-            <h2>show download statistics of any npm module</h2>
+            <h2>download statistics of any npm module</h2>
             <SearchBox
               onSubmit={this.handleSubmit}
               value={this.state.searchText}

@@ -121,19 +121,6 @@ table tr.sum {
   margin-top: 10px;
 }
 
-.created-by {
-  text-align: right;
-  margin-top: 30px;
-}
-
-.created-by a {
-  text-decoration: none;
-  color: darkgray;
-}
-.created-by a:hover {
-  color: black;
-}
-
 .home {
   padding-top: 30px;
   text-align: center;
@@ -305,4 +292,31 @@ h2 {
 
 .stats {
   padding-top: 60px;
+}
+
+.about {
+  font-size: 10pt;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 12pt;
+}
+
+.about h4 {
+  font-size: 14pt;
+  margin: 18px 0 8px;
+  font-weight: lighter;
+  letter-spacing: -0.7pt;
+  text-transform: uppercase;
+  color: white;
+}
+
+.about p {
+  margin: 4px 0;
+}
+
+.aboutText {
+  max-width: 80%;
+}
+
+.about p.created-by {
+  margin-top: 30px;
 }

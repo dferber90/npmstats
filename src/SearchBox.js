@@ -12,6 +12,7 @@ export class SearchBox extends Component {
           placeholder="Find a package"
           value={this.props.value}
           onInput={this.props.onInput}
+          spellcheck={false}
         />
         <button type="submit" className="searchButton">
           Search

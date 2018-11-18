@@ -52,15 +52,17 @@ export class AuthorStats extends Component {
     }
     return (
       <div class="stats">
+        {/*
         <div class="chart">
           <DailyChart data={authorDataToData(this.props.data)} />
-        </div>
+        </div>*/}
         <div class="chart">
           <MonthlyChart data={authorDataToData(this.props.data)} />
         </div>
+        {/*
         <div class="chart">
           <YearlyChart data={authorDataToData(this.props.data)} />
-        </div>
+        </div>*/}
         <div class="chart">
           <DownloadBox data={this.props.data} />
         </div>

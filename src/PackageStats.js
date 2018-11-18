@@ -35,15 +35,18 @@ export class PackageStats extends Component {
     }
     return (
       <div id="stats">
+        {/*
         <div class="chart">
           <DailyChart data={this.props.data} />
-        </div>
+        </div>*/}
         <div class="chart">
           <MonthlyChart data={this.props.data} />
         </div>
+        {/*
         <div class="chart">
           <YearlyChart data={this.props.data} />
         </div>
+        */}
         <div>
           <DownloadBox data={addPackage(this.props.data)} />
         </div>
