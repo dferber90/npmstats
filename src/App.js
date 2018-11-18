@@ -3,6 +3,7 @@ import Router from "preact-router";
 import { deepEqual } from "fast-equals";
 import { Stats } from "./Stats";
 import { Home } from "./Home.js";
+import { Footer } from "./Footer.js";
 import { commonFormatToUrlSlice } from "./conversions.js";
 import { isScopedPkg, isAuthor, isRegularPkg, toString } from "./utils";
 
@@ -14,7 +15,7 @@ const fetchPackage = packageName => {
           name: response.body.package,
           downloads: response.body.downloads
         }
-      : { name: toString(item.name), downloads: null }
+      : { name: packageName, downloads: null }
   );
 };
 
@@ -84,15 +85,18 @@ export class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Home path="/" load={this.load} />
-        <Stats
-          path="/:searchQuery"
-          loadPackageStats={this.loadPackageStats}
-          loadAuthorsStats={this.loadAuthorsStats}
-          data={this.state.data}
-        />
-      </Router>
+      <div>
+        <Router>
+          <Home path="/" load={this.load} />
+          <Stats
+            path="/:searchQuery"
+            loadPackageStats={this.loadPackageStats}
+            loadAuthorsStats={this.loadAuthorsStats}
+            data={this.state.data}
+          />
+        </Router>
+        <Footer />
+      </div>
     );
   }
 }

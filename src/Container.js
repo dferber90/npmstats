@@ -1,3 +1,7 @@
 import { h } from "preact";
 
-export const Container = props => <div class="container">{props.children}</div>;
+export const Container = props => (
+  <div class={props.fullHeight ? "container-full" : "container"}>
+    {props.children}
+  </div>
+);

@@ -5,6 +5,7 @@ import { Footer } from "./Footer.js";
 import { PackageStats } from "./PackageStats.js";
 import { Container } from "./Container";
 import { AuthorStats } from "./AuthorStats.js";
+
 import {
   commonFormatToUrlSlice,
   urlSliceToCommonFormat,
@@ -19,6 +20,9 @@ export class Stats extends Component {
       urlSliceToCommonFormat(this.props.searchQuery)
     )
   };
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   handleSubmit = event => {
     event.preventDefault();
     const commonFormat = userInputToCommonFormat(this.state.searchText);
@@ -33,11 +37,11 @@ export class Stats extends Component {
     const authors = commonFormat.filter(isAuthor);
 
     return (
-      <Container>
+      <Container fullHeight>
         <div id="results">
           <div class="home">
             <a href="/" class="logo">
-              npmstats
+              NPM<span>STATS</span>
             </a>
           </div>
 
@@ -74,7 +78,6 @@ export class Stats extends Component {
               );
             })()}
           </div>
-          <Footer />
         </div>
       </Container>
     );
