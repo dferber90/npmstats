@@ -24,7 +24,7 @@ const getDatasets = downloadsByMonth =>
     label: item.label,
     data: item.downloads.map(entry => entry.downloads),
     backgroundColor: "transparent",
-    borderColor: colors[index],
+    borderColor: colors[index % colors.length],
     borderWidth: 1
   }));
 

@@ -48,46 +48,49 @@ export class Stats extends Component {
 
     return (
       <Container fullHeight>
-        <div id="results">
-          <div class="home">
-            <a href="/" class="logo">
-              NPM<span>STATS</span>
-            </a>
-          </div>
+        <div class="home">
+          <a href="/" class="logo">
+            NPM<span>STATS</span>
+          </a>
+        </div>
 
-          <SearchBox
-            value={this.state.searchText}
-            onInput={event => {
-              this.setState({ searchText: event.target.value });
-            }}
-            onSubmit={this.handleSubmit}
-          />
-          <div>
-            {(() => {
-              if (
-                authors.length &&
-                (regularPackages.length || scopedPackages.length)
-              ) {
-                return "Supplied mixed content";
-              }
-
-              if (authors.length)
-                return (
-                  <AuthorStats
-                    data={this.props.data}
-                    authors={urlSliceToCommonFormat(this.props.searchQuery)}
-                    loadAuthorsStats={this.props.loadAuthorsStats}
-                  />
-                );
+        <SearchBox
+          value={this.state.searchText}
+          onInput={event => {
+            this.setState({ searchText: event.target.value });
+          }}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          {(() => {
+            if (
+              authors.length &&
+              (regularPackages.length || scopedPackages.length)
+            ) {
               return (
-                <PackageStats
-                  data={this.props.data}
-                  packages={urlSliceToCommonFormat(this.props.searchQuery)}
-                  loadPackageStats={this.props.loadPackageStats}
+                <div class="not-found">
+                  You tried to search for packages and users at the same time.
+                  You can only search for one type.
+                </div>
+              );
+            }
+
+            if (authors.length)
+              return (
+                <AuthorStats
+                  data={this.props.authorsStats}
+                  authors={urlSliceToCommonFormat(this.props.searchQuery)}
+                  loadAuthorsStats={this.props.loadAuthorsStats}
                 />
               );
-            })()}
-          </div>
+            return (
+              <PackageStats
+                data={this.props.packagesStats}
+                packages={urlSliceToCommonFormat(this.props.searchQuery)}
+                loadPackagesStats={this.props.loadPackagesStats}
+              />
+            );
+          })()}
         </div>
       </Container>
     );

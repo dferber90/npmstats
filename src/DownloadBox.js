@@ -1,6 +1,7 @@
 import { h } from "preact";
+import { colors } from "./colors";
 
-const sumDownloads = downloads => {
+const sumDownloads = (downloads = []) => {
   return downloads.reduce((acc, dls) => {
     acc += dls.downloads;
     return acc;
@@ -26,10 +27,19 @@ export const DownloadBox = props => {
               </td>
               <td class="right">downloads</td>
             </tr>
-            {author.packages.map(pkg => (
+            {author.packages.map((pkg, index) => (
               <tr key={pkg.name}>
                 <td>
-                  <a href={`/${pkg.name}`}>{pkg.name}</a>
+                  <a
+                    href={`/${pkg.name}`}
+                    style={
+                      author.author
+                        ? null
+                        : { color: colors[index % colors.length] }
+                    }
+                  >
+                    {pkg.name}
+                  </a>
                 </td>
                 <td class="right">
                   {sumDownloads(pkg.downloads).toLocaleString()}

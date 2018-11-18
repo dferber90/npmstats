@@ -5,7 +5,6 @@ import { Stats } from "./Stats";
 import { Home } from "./Home.js";
 import { Footer } from "./Footer.js";
 import { commonFormatToUrlSlice } from "./conversions.js";
-import { isScopedPkg, isAuthor, isRegularPkg, toString } from "./utils";
 
 const fetchPackage = packageName => {
   const url = `https://api.npmjs.org/downloads/range/last-year/${packageName}`;
@@ -66,22 +65,38 @@ const fetchResonse = (url, ...rest) =>
 
 export class App extends Component {
   state = {
-    options: null,
-    data: null
+    packages: {
+      options: null,
+      data: null
+    },
+    authors: {
+      options: null,
+      data: null
+    }
   };
+  packagesPromise = null;
+  authorsPromise = null;
   promise = null;
 
-  loadStats = (loadFn, options) => {
-    if (deepEqual(this.state.options, options)) return this.promise;
+  loadPackagesStats = options => {
+    if (deepEqual(this.state.packages.options, options))
+      return this.packagesPromise;
 
-    this.promise = loadFn(options).then(data => {
-      this.setState({ options, data });
+    this.packagesPromise = fetchPackages(options).then(data => {
+      this.setState({ packages: { options, data } });
     });
-    return this.promise;
+    return this.packagesPromise;
   };
 
-  loadPackageStats = options => this.loadStats(fetchPackages, options);
-  loadAuthorsStats = options => this.loadStats(fetchAuthors, options);
+  loadAuthorsStats = options => {
+    if (deepEqual(this.state.authors.options, options))
+      return this.authorsPromise;
+
+    this.authorsPromise = fetchAuthors(options).then(data => {
+      this.setState({ authors: { options, data } });
+    });
+    return this.authorsPromise;
+  };
 
   render() {
     return (
@@ -90,9 +105,10 @@ export class App extends Component {
           <Home path="/" load={this.load} />
           <Stats
             path="/:searchQuery"
-            loadPackageStats={this.loadPackageStats}
+            loadPackagesStats={this.loadPackagesStats}
             loadAuthorsStats={this.loadAuthorsStats}
-            data={this.state.data}
+            packagesStats={this.state.packages.data}
+            authorsStats={this.state.authors.data}
           />
         </Router>
         <Footer />

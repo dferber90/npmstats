@@ -10,6 +10,7 @@ router.get("/author/:name", (request, response) => {
   var list = registry.user(request.params.name).list((error, packages) => {
     response.setHeader("Content-Type", "application/json");
     response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Cache-Control", "max-age=300");
     if (error) {
       response.status(400);
       response.end(JSON.stringify({ error: true }));

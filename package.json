@@ -9,7 +9,8 @@
     "start:frontend": "parcel src/index.html",
     "start:api": "node src/api.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "build": "parcel build src/index.html"
   },
   "devDependencies": {
     "@babel/core": "7.1.6",

@@ -4,6 +4,7 @@ import { DailyChart } from "./DailyChart.js";
 import { MonthlyChart } from "./MonthlyChart.js";
 import { YearlyChart } from "./YearlyChart.js";
 import { DownloadBox } from "./DownloadBox.js";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const combinePackageDownloads = packages => {
   const result = {};
@@ -37,15 +38,20 @@ export class AuthorStats extends Component {
     });
   }
   render() {
-    if (!this.props.data) return "Loading..";
+    if (!this.props.data) return <LoadingSpinner />;
     const firstMissingAuthor = this.props.data.find(
-      author => author.downloads === null
+      author => author.packages && author.packages.length === 0
     );
     if (firstMissingAuthor) {
-      return `Author ${firstMissingAuthor.name} not found`;
+      return (
+        <div class="not-found">
+          Author &quot;<i>{firstMissingAuthor.author}</i>&quot; does not exist
+          or has not authored any packages.
+        </div>
+      );
     }
     return (
-      <div id="stats">
+      <div class="stats">
         <div class="chart">
           <DailyChart data={authorDataToData(this.props.data)} />
         </div>

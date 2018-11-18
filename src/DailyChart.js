@@ -9,7 +9,7 @@ const getDatasets = data =>
     label: item.name,
     data: item.downloads.map(day => day.downloads),
     backgroundColor: "transparent",
-    borderColor: colors[index],
+    borderColor: colors[index % colors.length],
     borderWidth: 1
   }));
 const getOptions = data => ({

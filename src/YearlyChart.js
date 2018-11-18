@@ -35,8 +35,8 @@ const getDatasets = downloadsByYear =>
   downloadsByYear.map((item, index) => ({
     label: item.label,
     data: item.downloads.map(entry => entry.downloads),
-    backgroundColor: bgColors[index],
-    borderColor: colors[index],
+    backgroundColor: colors[index % colors.length],
+    borderColor: colors[index % colors.length],
     borderWidth: 1
   }));
 
