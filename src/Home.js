@@ -7,7 +7,7 @@ import {
   userInputToCommonFormat,
   commonFormatToUrlSlice
 } from "./conversions.js";
-import logo from "./logo2.svg";
+import logo from "../assets/logo2.svg";
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 

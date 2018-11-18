@@ -14,14 +14,24 @@ import {
 } from "./conversions.js";
 import { isScopedPkg, isAuthor, isRegularPkg } from "./utils";
 
+const getSearchTextFromSearchQuery = searchQuery =>
+  commonFormatToUserInput(urlSliceToCommonFormat(searchQuery));
+
 export class Stats extends Component {
   state = {
-    searchText: commonFormatToUserInput(
-      urlSliceToCommonFormat(this.props.searchQuery)
-    )
+    searchQuery: this.props.searchQuery,
+    searchText: getSearchTextFromSearchQuery(this.props.searchQuery)
   };
   componentDidMount() {
     window.scrollTo(0, 0);
+  }
+  static getDerivedStateFromProps(props, state) {
+    return props.searchQuery !== state.searchQuery
+      ? {
+          searchQuery: props.searchQuery,
+          searchText: getSearchTextFromSearchQuery(props.searchQuery)
+        }
+      : null;
   }
   handleSubmit = event => {
     event.preventDefault();
