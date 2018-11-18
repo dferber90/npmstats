@@ -1,44 +1,75 @@
 import { h, Component } from "preact";
 import Chart from "chart.js";
 import chartOptions from "./chartOptions.js";
+import { colors } from "./colors.js";
 
-export class MonthlyChart extends Component {
-  chartRef = null;
-  componentDidMount() {
-    const downloadsByMonth = Object.entries(
-      this.props.downloads.reduce((acc, cur) => {
+const getDownloadsByMonth = data =>
+  data.map(entry => ({
+    label: entry.name,
+    downloads: Object.entries(
+      entry.downloads.reduce((acc, cur) => {
         const month = cur.day.substring(0, 7);
         if (!acc[month]) acc[month] = 0;
         acc[month] += cur.downloads;
         return acc;
       }, {})
-    ).map(([month, downloads]) => ({ month, downloads }));
+    ).map(([month, downloads]) => ({ month, downloads }))
+  }));
 
-    new Chart(this.chartRef, {
+const getLabels = downloadsByMonth =>
+  downloadsByMonth[0].downloads.map(entry => entry.month);
+
+const getDatasets = downloadsByMonth =>
+  downloadsByMonth.map((item, index) => ({
+    label: item.label,
+    data: item.downloads.map(entry => entry.downloads),
+    backgroundColor: "transparent",
+    borderColor: colors[index],
+    borderWidth: 1
+  }));
+
+const getOptions = data => ({
+  ...chartOptions,
+  legend: {
+    display: data.length > 1,
+    position: "bottom"
+  },
+  title: {
+    display: true,
+    text: `Downloads per month`
+  }
+});
+
+export class MonthlyChart extends Component {
+  chartRef = null;
+  chartInstance = null;
+  componentDidMount() {
+    const downloadsByMonth = getDownloadsByMonth(this.props.data);
+
+    this.chartInstance = new Chart(this.chartRef, {
       type: "line",
       data: {
-        labels: downloadsByMonth.map(entry => entry.month),
-        datasets: [
-          {
-            data: downloadsByMonth.map(entry => entry.downloads),
-            backgroundColor: "transparent",
-            borderColor: "rgba(255,99,132,1)",
-            borderWidth: 1
-          }
-        ]
+        labels: getLabels(downloadsByMonth),
+        datasets: getDatasets(downloadsByMonth)
       },
-      options: {
-        ...chartOptions,
-        title: {
-          display: true,
-          text: `Downloads per month`
-        }
-      }
+      options: getOptions(this.props.data)
     });
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.data !== prevProps.data) {
+      const downloadsByMonth = getDownloadsByMonth(this.props.data);
+      this.chartInstance.data.labels = getLabels(downloadsByMonth);
+      this.chartInstance.data.datasets = getDatasets(downloadsByMonth);
+      this.chartInstance.options = getOptions(this.props.data);
+      this.chartInstance.update();
+    }
+  }
+  componentWillUnmount() {
+    this.chartInstance.destroy();
   }
   render() {
     return (
-      <canvas ref={node => (this.chartRef = node)} width="400" height="300" />
+      <canvas ref={node => (this.chartRef = node)} width="400" height="250" />
     );
   }
 }

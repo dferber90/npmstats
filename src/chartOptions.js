@@ -8,9 +8,6 @@ export default {
     }
     // line: { cubicInterpolationMode: "monotone" }
   },
-  legend: {
-    display: false
-  },
   scales: {
     yAxes: [
       {
@@ -34,7 +31,12 @@ export default {
   },
   tooltips: {
     callbacks: {
-      label: tooltipItem => tooltipItem.yLabel.toLocaleString("en")
+      label: function(tooltipItem, data) {
+        var label = data.datasets[tooltipItem.datasetIndex].label || "";
+        if (label) label += ": ";
+        label += tooltipItem.yLabel.toLocaleString("en");
+        return label;
+      }
     }
   }
 };

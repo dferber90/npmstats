@@ -2,5 +2,10 @@
   "plugins": [
     ["transform-react-jsx", { "pragma": "h" }],
     "@babel/plugin-proposal-class-properties"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": ["@babel/preset-env"]
+    }
+  }
 }

@@ -1,31 +1,52 @@
 import { h, Component } from "preact";
 import Chart from "chart.js";
 import chartOptions from "./chartOptions.js";
+import { colors } from "./colors.js";
+
+const getLabels = data => data[0].downloads.map((stats, index) => stats.day);
+const getDatasets = data =>
+  data.map((item, index) => ({
+    label: item.name,
+    data: item.downloads.map(day => day.downloads),
+    backgroundColor: "transparent",
+    borderColor: colors[index],
+    borderWidth: 1
+  }));
+const getOptions = data => ({
+  ...chartOptions,
+  legend: {
+    display: data.length > 1,
+    position: "bottom"
+  },
+  title: {
+    display: true,
+    text: `Downloads per day`
+  }
+});
 
 export class DailyChart extends Component {
   chartRef = null;
+  chartInstance = null;
   componentDidMount() {
-    new Chart(this.chartRef, {
+    this.chartInstance = new Chart(this.chartRef, {
       type: "line",
       data: {
-        labels: this.props.downloads.map((stats, index) => stats.day),
-        datasets: [
-          {
-            data: this.props.downloads.map(stats => stats.downloads),
-            backgroundColor: "transparent",
-            borderColor: "rgba(255,99,132,1)",
-            borderWidth: 1
-          }
-        ]
+        labels: getLabels(this.props.data),
+        datasets: getDatasets(this.props.data)
       },
-      options: {
-        ...chartOptions,
-        title: {
-          display: true,
-          text: `Downloads per day`
-        }
-      }
+      options: getOptions(this.props.data)
     });
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.data !== prevProps.data) {
+      this.chartInstance.data.labels = getLabels(this.props.data);
+      this.chartInstance.data.datasets = getDatasets(this.props.data);
+      this.chartInstance.options = getOptions(this.props.data);
+      this.chartInstance.update();
+    }
+  }
+  componentWillUnmount() {
+    this.chartInstance.destroy();
   }
   render() {
     return (
