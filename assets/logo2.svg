@@ -1,11 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="152px" height="104px" viewBox="0 0 152 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-    <title>Slice</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M12,59.234375 C77.2604167,59.234375 120.255208,51.4895833 140.984375,36" stroke="dodgerblue" stroke-width="3"></path>
-        <path d="M5.25390625,74.1796875 C68.7877604,21.1197917 116.240885,7.58203125 147.613281,33.5664062" stroke="crimson" stroke-width="3" transform="translate(76.433594, 47.466627) rotate(-18.000000) translate(-76.433594, -47.466627) "></path>
-    </g>
+<svg width="152" height="104" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd" stroke-width="3">
+    <path d="M12 59.234c65.26 0 108.255-7.744 128.984-23.234" stroke="#1e90ff"/>
+    <path d="M16.992 94.868C61.02 24.772 101.968-2.767 139.834 12.251" stroke="#dc143c"/>
+  </g>
 </svg>
