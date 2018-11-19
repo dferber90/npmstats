@@ -9,6 +9,7 @@ import { LoadingSpinner } from "./LoadingSpinner";
 const combinePackageDownloads = packages => {
   const result = {};
   packages.forEach(pkg => {
+    if (!pkg.downloads) return;
     pkg.downloads.forEach(downloads => {
       if (!result[downloads.day]) result[downloads.day] = 0;
       result[downloads.day] += downloads.downloads;
@@ -50,6 +51,18 @@ export class AuthorStats extends Component {
         </div>
       );
     }
+
+    const firstFailedPackageAuthor = this.props.data.find(author => {
+      return author.packages.some(pkg => pkg.failedToFetch);
+    });
+    if (firstFailedPackageAuthor)
+      return (
+        <div class="not-found">
+          Failed to fetch at least one package of &quot;
+          <i>{firstFailedPackageAuthor.author}</i>&quot;.
+        </div>
+      );
+
     return (
       <div class="stats">
         {/*

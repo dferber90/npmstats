@@ -8,13 +8,19 @@ import { commonFormatToUrlSlice } from "./conversions.js";
 
 const fetchPackage = packageName => {
   const url = `https://api.npmjs.org/downloads/range/last-year/${packageName}`;
-  return fetchResonse(url).then(response =>
-    response.status === 200
-      ? {
-          name: response.body.package,
-          downloads: response.body.downloads
-        }
-      : { name: packageName, downloads: null }
+  return fetchResonse(url).then(
+    response =>
+      response.status === 200
+        ? {
+            name: response.body.package,
+            downloads: response.body.downloads
+          }
+        : { name: packageName, downloads: null, error: response.body },
+    () => ({
+      name: packageName,
+      downloads: null,
+      failedToFetch: true
+    })
   );
 };
 

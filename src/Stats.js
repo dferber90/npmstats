@@ -1,7 +1,6 @@
 import { h, Component } from "preact";
 import { route } from "preact-router";
 import { SearchBox } from "./SearchBox";
-import { Footer } from "./Footer.js";
 import { PackageStats } from "./PackageStats.js";
 import { Container } from "./Container";
 import { AuthorStats } from "./AuthorStats.js";

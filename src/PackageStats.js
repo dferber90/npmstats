@@ -23,6 +23,16 @@ export class PackageStats extends Component {
   }
   render() {
     if (!this.props.data) return <LoadingSpinner />;
+
+    const firstErrorPackage = this.props.data.find(pkg => pkg.failedToFetch);
+    if (firstErrorPackage) {
+      return (
+        <div class="not-found">
+          Failed to fetch &quot;<i>{firstErrorPackage.name}</i>&quot;
+        </div>
+      );
+    }
+
     const firstMissingPackage = this.props.data.find(
       pkg => pkg.downloads === null
     );
