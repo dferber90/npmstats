@@ -3,11 +3,11 @@ import Chart from "chart.js";
 import chartOptions from "./chartOptions.js";
 import { colors } from "./colors.js";
 
-const getLabels = data => data[0].downloads.map((stats, index) => stats.day);
+const getLabels = data => Object.keys(data[0].downloads);
 const getDatasets = data =>
   data.map((item, index) => ({
     label: item.name,
-    data: item.downloads.map(day => day.downloads),
+    data: Object.values(item.downloads),
     backgroundColor: "transparent",
     borderColor: colors[index % colors.length],
     borderWidth: 1

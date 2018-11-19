@@ -7,10 +7,10 @@ const getDownloadsByYear = data =>
   data.map(entry => ({
     label: entry.name,
     downloads: Object.entries(
-      entry.downloads.reduce((acc, cur) => {
-        const year = cur.day.substring(0, 4);
+      Object.entries(entry.downloads).reduce((acc, [day, dls]) => {
+        const year = day.substring(0, 4);
         if (!acc[year]) acc[year] = 0;
-        acc[year] += cur.downloads;
+        acc[year] += dls;
         return acc;
       }, {})
     ).map(([year, downloads]) => ({ year, downloads }))

@@ -1,19 +1,59 @@
-// This is the Cloudflare Worker which is used in Cloudflare to handle the
-// "npmstats.org/*" route.
-
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request));
 });
 
+const successHeaders = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Cache-Control": "max-age=120"
+};
+
+const failureHeaders = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Cache-Control": "no-cache, no-store, must-revalidate",
+  status: 404
+};
+
 async function handleRequest(req) {
   const res = await fetch(req);
 
+  const packageMatch = req.url.match(
+    /npmstats\.org\/-package\/([@a-z0-9_\-/]+)/i
+  );
+  if (packageMatch) {
+    const pkg = packageMatch[1];
+    const npmResponse = await fetch(
+      `https://api.npmjs.org/downloads/range/last-year/${pkg}`
+    );
+    const npmResponseBody = await npmResponse.json();
+    if (
+      npmResponse.status === 200 &&
+      Array.isArray(npmResponseBody.downloads)
+    ) {
+      return new Response(
+        JSON.stringify({
+          downloads: npmResponseBody.downloads.reduce((accumulator, entry) => {
+            accumulator[entry.day] = entry.downloads;
+            return accumulator;
+          }, {})
+        }),
+        { headers: successHeaders }
+      );
+    }
+    return new Response(JSON.stringify(npmResponseBody), {
+      ...failureHeaders,
+      status: npmResponse.status,
+      statusText: npmResponse.statusText
+    });
+  }
+
   // Allows clients to fetch https://npmstats.org/-author/dferber90 to receive
-  // package of an author.
+  // package list of an author.
   // I found out about the URL to query from the "npm-stats" package.
-  const match = req.url.match(/npmstats\.org\/-author\/([a-z0-9_\-]+)/i);
-  if (match) {
-    const author = match[1];
+  const authorMatch = req.url.match(/npmstats\.org\/-author\/([a-z0-9_\-]+)/i);
+  if (authorMatch) {
+    const author = authorMatch[1];
     const packages = await fetch(
       `https://skimdb.npmjs.com/registry/_design/app/_view/byUser?startkey=%22${author}%22&endkey=%22${author}%22`
     )
@@ -24,13 +64,7 @@ async function handleRequest(req) {
         author,
         packages
       }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "max-age=120"
-        }
-      }
+      { headers: successHeaders }
     );
   }
 
@@ -49,5 +83,6 @@ async function handleRequest(req) {
       statusText: "OK"
     });
   }
+
   return res;
 }

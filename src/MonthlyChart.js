@@ -7,10 +7,10 @@ const getDownloadsByMonth = data =>
   data.map(entry => ({
     label: entry.name,
     downloads: Object.entries(
-      entry.downloads.reduce((acc, cur) => {
-        const month = cur.day.substring(0, 7);
+      Object.entries(entry.downloads).reduce((acc, [day, dls]) => {
+        const month = day.substring(0, 7);
         if (!acc[month]) acc[month] = 0;
-        acc[month] += cur.downloads;
+        acc[month] += dls;
         return acc;
       }, {})
     ).map(([month, downloads]) => ({ month, downloads }))

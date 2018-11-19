@@ -1,22 +1,20 @@
 import { h, Component } from "preact";
 import memoize from "memoize-one";
-import { DailyChart } from "./DailyChart.js";
+// import { DailyChart } from "./DailyChart.js";
 import { MonthlyChart } from "./MonthlyChart.js";
-import { YearlyChart } from "./YearlyChart.js";
+// import { YearlyChart } from "./YearlyChart.js";
 import { DownloadBox } from "./DownloadBox.js";
 import { LoadingSpinner } from "./LoadingSpinner";
 
-const combinePackageDownloads = packages => {
-  const result = {};
-  packages.forEach(pkg => {
+const combinePackageDownloads = packages =>
+  packages.reduce((acc, pkg) => {
     if (!pkg.downloads) return;
-    pkg.downloads.forEach(downloads => {
-      if (!result[downloads.day]) result[downloads.day] = 0;
-      result[downloads.day] += downloads.downloads;
+    Object.entries(pkg.downloads).forEach(([day, dls]) => {
+      if (!acc[day]) acc[day] = 0;
+      acc[day] += dls;
     });
-  });
-  return Object.entries(result).map(([day, downloads]) => ({ day, downloads }));
-};
+    return acc;
+  }, {});
 
 // memoize to avoid chart from reinitializing with the same data, because
 // charts use an equality check on props.data with prevProps.data.
@@ -65,8 +63,7 @@ export class AuthorStats extends Component {
 
     return (
       <div class="stats">
-        {/*
-        <div class="chart">
+        {/*<div class="chart">
           <DailyChart data={authorDataToData(this.props.data)} />
         </div>*/}
         <div class="chart">

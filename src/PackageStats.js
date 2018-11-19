@@ -1,8 +1,8 @@
 import { h, Component } from "preact";
 import memoize from "memoize-one";
-import { DailyChart } from "./DailyChart.js";
+// import { DailyChart } from "./DailyChart.js";
 import { MonthlyChart } from "./MonthlyChart.js";
-import { YearlyChart } from "./YearlyChart.js";
+// import { YearlyChart } from "./YearlyChart.js";
 import { DownloadBox } from "./DownloadBox.js";
 import { LoadingSpinner } from "./LoadingSpinner";
 

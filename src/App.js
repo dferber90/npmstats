@@ -7,12 +7,12 @@ import { Footer } from "./Footer.js";
 import { commonFormatToUrlSlice } from "./conversions.js";
 
 const fetchPackage = packageName => {
-  const url = `https://api.npmjs.org/downloads/range/last-year/${packageName}`;
+  const url = `https://npmstats.org/-package/${packageName}`;
   return fetchResonse(url).then(
     response =>
       response.status === 200
         ? {
-            name: response.body.package,
+            name: packageName,
             downloads: response.body.downloads
           }
         : { name: packageName, downloads: null, error: response.body },

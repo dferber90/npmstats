@@ -1,9 +1,9 @@
 import { h } from "preact";
 import { colors } from "./colors";
 
-const sumDownloads = (downloads = []) => {
-  return downloads.reduce((acc, dls) => {
-    acc += dls.downloads;
+const sumDownloads = downloads => {
+  return Object.values(downloads).reduce((acc, dls) => {
+    acc += dls;
     return acc;
   }, 0);
 };
