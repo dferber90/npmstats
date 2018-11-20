@@ -8,7 +8,7 @@
     "start": "parcel src/index.html",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "rm -rf dist; parcel build src/index.html",
+    "build": "rm -rf dist; parcel build src/index.html; cp -r static/ dist",
     "deploy": "s3_website push"
   },
   "devDependencies": {
