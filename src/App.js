@@ -6,8 +6,11 @@ import { Home } from "./Home.js";
 import { Footer } from "./Footer.js";
 import { commonFormatToUrlSlice } from "./conversions.js";
 
+const API =
+  "https://h4516g6dqk.execute-api.eu-central-1.amazonaws.com/production";
+
 const fetchPackage = packageName => {
-  const url = `https://npmstats.org/-package/${packageName}`;
+  const url = `${API}/package?name=${packageName}`;
   return fetchResonse(url).then(
     response =>
       response.status === 200
@@ -41,9 +44,8 @@ const fetchAuthors = options => {
     options.commonFormat.map(searchItem => {
       // remove leading @ from author
       const author = searchItem.author.slice(1);
-      return fetch(
-        `https://npmstats.org/-author/${encodeURIComponent(author)}`
-      ).then(response => response.json());
+      const url = `${API}/author?name=${encodeURIComponent(author)}`;
+      return fetch(url).then(response => response.json());
     })
   ).then(authorsWithPackages => {
     return Promise.all(
